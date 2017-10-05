@@ -53,15 +53,19 @@ function purchace(err,res){
 function updateQuantity(pD, pQ){
 	newQuantity = pQ - choiceNum;
 	totalCost = pD * choiceNum;
-	connection.query("UPDATE products SET ? WHERE ?",
-		[
-			{stock_quantity:newQuantity},
-			{item_id:choiceID}
-		],function(err){
-			if (err) throw err;
-			console.log("Purchace made!\nYour total: $"+totalCost+".00");
-		}
-	);
+	if (newQuantity >= 0){
+		connection.query("UPDATE products SET ? WHERE ?",
+			[
+				{stock_quantity:newQuantity},
+				{item_id:choiceID}
+			],function(err){
+				if (err) throw err;
+				console.log("Purchace made!\nYour total: $"+totalCost+".00");
+			}
+		);
+	} else {
+		console.log("Not enough stock");
+	}
 };
 
 
