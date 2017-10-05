@@ -13,12 +13,14 @@ var connection = mysql.createConnection({
 
 var choiceID = process.argv[2];
 var choiceNum = process.argv[3];
+var found = false;
+
 
 
 function afterConnection() {
   connection.query("SELECT * FROM products", function(err, res) {
     if (err) throw err;
-    displayProducts();
+    displayProducts(err, res);
     connection.end();
   });
 };
@@ -38,8 +40,12 @@ function purchace(err,res){
 				var purchacePrice = res[i].price;
 				var purchaceQuantity = res[i].stock_quantity;
 				updateQuantity(purchacePrice, purchaceQuantity);
+				found = true;
 			};
 		};
+	if (found === false){
+				console.log("I don't recognize that product");
+	};
 	connection.end();
 	});
 };
@@ -59,8 +65,13 @@ function updateQuantity(pD, pQ){
 };
 
 
-if (choiceID){
-	purchace();
-} else { 
+if (choiceID === undefined){
+	console.log("Type 'list' after the js call to see products, type the product ID and qualtity (default is 1) to purchace");
+} else if (choiceID === "list") { 
 	afterConnection();
+} else {
+	if (choiceNum === undefined || isNaN(choiceNum)){
+	choiceNum = 1;
+	};
+	purchace();
 };
