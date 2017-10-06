@@ -92,7 +92,7 @@ function startPrompt(){
 	inquirer.prompt([
 		{
 		type: "list",
-	      message: "Welcome to Bamazon!\nWHat would you like to do?",
+	      message: "Welcome to Bamazon!\nWhat would you like to do?",
 	      choices: ["See Product List", "Purchace Items", "End Program"],
 	      name: "cardType"
 	  	}
